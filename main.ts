@@ -42,6 +42,9 @@ async function loadXml(e: Event) {
     const viewer = document.getElementById("viewer");
     if (viewer) {
       viewer.innerHTML = "TODO: parse xapi db";
+
+      const row = xml.querySelector("row");
+      console.log(row);
     }
   }
 }
