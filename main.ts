@@ -39,12 +39,20 @@ async function loadXml(e: Event) {
     const xml: Document = new DOMParser().parseFromString(text, "text/xml");
     console.log(xml);
 
+    // We will need a serializer to print XML element
+    const ser = new XMLSerializer();
+
+    // Note that xml is an XML DOM that has been created. It is not the HTML DOM.
     const viewer = document.getElementById("viewer");
     if (viewer) {
-      viewer.innerHTML = "TODO: parse xapi db";
-
       const row = xml.querySelector("row");
       console.log(row);
+
+      if (row) {
+        const div = document.createElement("div");
+        div.textContent = ser.serializeToString(row);
+        viewer.appendChild(div);
+      }
     }
   }
 }
