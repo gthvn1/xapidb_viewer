@@ -28,31 +28,38 @@ async function loadXml(e: Event) {
   // Now we need to read the file
   // https://developer.mozilla.org/en-US/docs/Web/API/FileList
 
-  if (input.files && input.files.length > 0) {
-    // https://developer.mozilla.org/docs/Web/API/Blob/text
-    // https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
-    // https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
-    // XML can be parsed
-    // text() is a promise, so we need to add await
-    // If we add await we need to say the function loadXml is async
-    const text = await input.files[0].text();
-    const xml: Document = new DOMParser().parseFromString(text, "text/xml");
-    console.log(xml);
+  if (!input.files || input.files.length === 0) {
+    console.log("No file selected");
+    return;
+  }
 
-    // We will need a serializer to print XML element
-    const ser = new XMLSerializer();
+  // https://developer.mozilla.org/docs/Web/API/Blob/text
+  // https://developer.mozilla.org/en-US/docs/Web/API/DOMParser/parseFromString
+  // https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
+  // XML can be parsed
+  // text() is a promise, so we need to add await
+  // If we add await we need to say the function loadXml is async
+  const text = await input.files[0].text();
+  const xml: Document = new DOMParser().parseFromString(text, "text/xml");
+  console.log(xml);
 
-    // Note that xml is an XML DOM that has been created. It is not the HTML DOM.
-    const viewer = document.getElementById("viewer");
-    if (viewer) {
-      const row = xml.querySelector("row");
-      console.log(row);
+  // We will need a serializer to print XML element
+  const ser = new XMLSerializer();
 
-      if (row) {
-        const div = document.createElement("div");
-        div.textContent = ser.serializeToString(row);
-        viewer.appendChild(div);
-      }
-    }
+  // Note that xml is an XML DOM that has been created. It is not the HTML DOM.
+  const viewer = document.getElementById("viewer");
+  if (!viewer) {
+    console.log("viewer element not found");
+    return;
+  }
+
+  // TODO: parse all XML
+  const row = xml.querySelector("row");
+  console.log(row);
+
+  if (row) {
+    const div = document.createElement("div");
+    div.textContent = ser.serializeToString(row);
+    viewer.appendChild(div);
   }
 }
