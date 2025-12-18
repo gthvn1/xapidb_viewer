@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2022"]
+  },
+  "tasks": {
+    "build": "deno bundle main.ts -o public/main.js",
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
