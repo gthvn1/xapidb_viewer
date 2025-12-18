@@ -36,8 +36,12 @@ async function loadXml(e: Event) {
     // text() is a promise, so we need to add await
     // If we add await we need to say the function loadXml is async
     const text = await input.files[0].text();
-    const xml = new DOMParser().parseFromString(text, "text/xml");
+    const xml: Document = new DOMParser().parseFromString(text, "text/xml");
     console.log(xml);
-    // TODO: parse xml
+
+    const viewer = document.getElementById("viewer");
+    if (viewer) {
+      viewer.innerHTML = "TODO: parse xapi db";
+    }
   }
 }
