@@ -90,8 +90,31 @@ function renderRows(
   container: HTMLDetailsElement,
 ): void {
   table.querySelectorAll("row").forEach((row, index) => {
-    const rowDiv = document.createElement("div");
-    rowDiv.textContent = `todo: display row ${index}`;
-    container.appendChild(rowDiv);
+    // --- create a details element for the table
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = `Row ${index}`;
+    details.appendChild(summary);
+
+    // --- now the details
+    console.log(row.attributes);
+
+    Array.from(row.attributes).forEach((attr) => {
+      const div = document.createElement("div");
+
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = attr.name;
+      nameSpan.classList.add("attr-name");
+
+      const valueSpan = document.createElement("span");
+      valueSpan.textContent = attr.value;
+      valueSpan.classList.add("attr-value");
+
+      div.append("ENTRY: ", nameSpan, ": ", valueSpan);
+      details.appendChild(div);
+    });
+
+    // --- finally add it to container
+    container.appendChild(details);
   });
 }
