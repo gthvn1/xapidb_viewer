@@ -96,12 +96,11 @@ function renderRows(
     summary.textContent = `Row ${index}`;
     details.appendChild(summary);
 
-    // --- now the details
-    console.log(row.attributes);
-
+    // --- iterate over row attributes
     Array.from(row.attributes).forEach((attr) => {
-      const div = document.createElement("div");
+      const valueDiv = document.createElement("div");
 
+      // Use span to add colors
       const nameSpan = document.createElement("span");
       nameSpan.textContent = attr.name;
       nameSpan.classList.add("attr-name");
@@ -110,8 +109,11 @@ function renderRows(
       valueSpan.textContent = attr.value;
       valueSpan.classList.add("attr-value");
 
-      div.append("ENTRY: ", nameSpan, ": ", valueSpan);
-      details.appendChild(div);
+      valueDiv.appendChild(nameSpan);
+      valueDiv.appendChild(valueSpan);
+
+      // append the nested details to the row details
+      details.appendChild(valueDiv);
     });
 
     // --- finally add it to container
