@@ -54,12 +54,44 @@ async function loadXml(e: Event) {
   }
 
   // TODO: parse all XML
-  const row = xml.querySelector("row");
-  console.log(row);
 
-  if (row) {
-    const div = document.createElement("div");
-    div.textContent = ser.serializeToString(row);
-    viewer.appendChild(div);
-  }
+  // First exercise: list all tables
+  // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
+  // We will endup with
+  // <details>
+  //   <summary>Table: table_name (row_count rows)</summary>
+  //   <div>todo: display row 0</div>
+  //   <div>todo: display row 1</div>
+  //   ...
+  // </details>
+  xml.querySelectorAll("table").forEach((table) => {
+    const name = table.getAttribute("name");
+    const count = table.querySelectorAll("row").length;
+
+    // --- create a details element for the table
+    const details = document.createElement("details");
+
+    // --- Here is the summary element of the table
+    const summary = document.createElement("summary");
+    summary.textContent = `${name} (${count} rows)`;
+
+    details.appendChild(summary);
+    console.log(`Table ${name} has ${count} rows`);
+
+    // --- now add rows as div for now
+    renderRows(table, details);
+
+    viewer.appendChild(details);
+  });
+}
+
+function renderRows(
+  table: HTMLTableElement,
+  container: HTMLDetailsElement,
+): void {
+  table.querySelectorAll("row").forEach((row, index) => {
+    const rowDiv = document.createElement("div");
+    rowDiv.textContent = `todo: display row ${index}`;
+    container.appendChild(rowDiv);
+  });
 }
